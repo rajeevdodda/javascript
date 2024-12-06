@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>XML</title>
+    <script>
+      //   let xhr = new XMLHttpRequest();
+      //   console.log(xhr.readyState);
+      //   xhr.responseType = "json";
+      //   xhr.open("GET", "http://127.0.0.1:8000/users");
+      //   console.log(xhr.readyState);
+      //   xhr.send();
+      //   xhr.onload = function () {
+      //     console.log(`Loaded: ${xhr.status} ${xhr.response} ${xhr.statusText}`);
+      //     console.log(xhr.response[0]);
+      //   };
+      //   xhr.onerror = function () {
+      //     console.log(`Error: ${xhr.status} ${xhr.response} ${xhr.statusText}`);
+      //   };
+      //   xhr.onprogress = function (event) {
+      //     // triggers periodically
+      //     // event.loaded - how many bytes downloaded
+      //     // event.lengthComputable = true if the server sent Content-Length header
+      //     // event.total - total number of bytes (if lengthComputable)
+      //     console.log(
+      //       `Received ${event.loaded} of ${event.total} ${xhr.statusText}`
+      //     );
+      //   };
+
+      //   xhr.onreadystatechange = function () {
+      //     console.log(xhr.readyState);
+      //   };
+
+      let xhrSync = new XMLHttpRequest();
+      xhrSync.open("GET", "http://127.0.0.1:8000/users", false);
+      try {
+        xhrSync.send();
+        if (xhrSync.status != 200) {
+          console.log(`Error ${xhrSync.status}: ${xhrSync.statusText}`);
+        } else {
+          console.log(xhrSync.response);
+        }
+      } catch (err) {
+        // instead of onerror
+        console.log("Request failed");
+      }
+    </script>
+  </head>
+  <body>
+    hi
+  </body>
+</html>

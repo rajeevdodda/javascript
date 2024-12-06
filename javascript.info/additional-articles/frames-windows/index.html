@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Frames and Windows</title>
+    <script>
+      const onClickOpenWindow = () => {
+        let newWindow = window.open(
+          "https://javascript.info/",
+          `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
+      width=0,height=0,left=-1000,top=-1000`
+        );
+        newWindow.focus();
+      };
+    </script>
+  </head>
+  <body>
+    <button onclick="onClickOpenWindow()">Open window</button>
+  </body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>title</title>
+  </head>
+  <body>
+    <form id="formElem">
+      <input type="text" name="name" value="John" />
+      <input type="text" name="surname" value="Smith" />
+      Picture: <input type="file" name="picture" accept="image/*" />
+      <input type="submit" />
+    </form>
+    <button onclick="download()">download</button>
+
+    <script>
+      const download = async () => {
+        let response = await fetch("http://127.0.0.1:8000/download");
+        const contentLength = +response.headers.get("Content-Length");
+        console.log(contentLength);
+        const reader = response.body.getReader();
+        let receivedLength = 0; // received that many bytes at the moment
+        let chunks = []; // array of received binary chunks (comprises the body)
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) {
+            break;
+          }
+          chunks.push(value);
+          receivedLength += value.length;
+          console.log(`Received ${receivedLength} of ${contentLength}`);
+        }
+        let chunksAll = new Uint8Array(receivedLength); // (4.1)
+        let position = 0;
+        for (let chunk of chunks) {
+          chunksAll.set(chunk, position); // (4.2)
+          position += chunk.length;
+        }
+        let blob = new Blob([chunksAll], { type: "image/jpg" }); // (4)
+        const imageBase64 = URL.createObjectURL(blob);
+        const img = document.createElement("img");
+        document.body.appendChild(img);
+        img.src = imageBase64;
+      };
+
+      formElem.onsubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(formElem);
+        formData.append("key1", "value1");
+        formData.append("key1", "value3");
+        formData.append("key2", "value2");
+
+        let response = await fetch("http://127.0.0.1:8000/users-form", {
+          method: "POST",
+          body: formData,
+        });
+
+        let result = await response.json();
+
+        alert(result.message);
+      };
+    </script>
+  </body>
+</html>

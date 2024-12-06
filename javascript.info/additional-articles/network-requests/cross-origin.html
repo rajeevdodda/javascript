@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cross-Origin</title>
+  </head>
+  <script>
+    try {
+      fetch("https://www.google.com/")
+        .then((resp) => console.log(resp))
+        .catch((err) => console.log(err));
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      fetch("http://127.0.0.1:8000/users", {
+        headers: {
+          referer: "",
+          //   refererPolicy: "no-referrer",
+        },
+      })
+        .then((resp) => console.log(resp))
+        .catch((err) => console.log(err));
+    } catch (e) {
+      console.log(e);
+    }
+  </script>
+  <body>
+    <iframe
+      src="http://127.0.0.1:8080/sample"
+      title="W3Schools Free Online Web Tutorials"
+    ></iframe>
+    <form target="iframe" method="POST" action="http://127.0.0.1:8080/sample">
+      <input type="text" name="name" value="John" />
+      <input type="text" name="surname" value="Smith" />
+      <input type="submit" />
+    </form>
+  </body>
+</html>
